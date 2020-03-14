@@ -5,14 +5,11 @@ set -e
 cd "$(dirname "$0")/.."
 
 echo "=> Installing fan controller...\n"
-sudo cp fancontrol.py /usr/local/bin/
-sudo chmod +x /usr/local/bin/fancontrol.py
+chmod +x ~/fancontrol.py
 
 echo "=> Starting fan controller...\n"
-sudo cp fancontrol.sh /etc/init.d/
-sudo chmod +x /etc/init.d/fancontrol.sh
+chmod +x ~/fancontrol.sh
 
-sudo update-rc.d fancontrol.sh defaults
-sudo /etc/init.d/fancontrol.sh start
+echo "nohup /storage/fancontrol.sh start &" > /storage/.config/autostart.sh
 
 echo "Fan controller installed."
