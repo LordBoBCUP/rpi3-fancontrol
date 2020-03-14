@@ -3,6 +3,9 @@
 import subprocess
 import time
 
+import sys
+sys.path.append('/storage/.kodi/addons/virtual.rpi-tools/lib')
+
 from gpiozero import OutputDevice
 
 
@@ -20,10 +23,10 @@ def get_temp():
     Returns:
         float: The core temperature in degrees Celsius.
     """
-    output = subprocess.run(['vcgencmd', 'measure_temp'], capture_output=True)
-    temp_str = output.stdout.decode()
+    output = subprocess.check_output(['vcgencmd', 'measure_temp'])
+    #temp_str = output.stdout.decode()
     try:
-        return float(temp_str.split('=')[1].split('\'')[0])
+        return float(output.split('=')[1].split('\'')[0])
     except (IndexError, ValueError):
         raise RuntimeError('Could not parse temperature output.')
 
@@ -50,3 +53,9 @@ if __name__ == '__main__':
             fan.off()
 
         time.sleep(SLEEP_INTERVAL)
+
+
+
+
+output = subprocess.check_output(['vcgencmd', 'measure_temp'])
+print float(output.split('=')[1].split('\'')[0])
